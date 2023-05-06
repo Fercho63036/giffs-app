@@ -1,18 +1,24 @@
 import { Component } from '@angular/core';
 import { GifsService } from 'src/app/gifs/services/gifs.service';
-import { SearchBoxComponent } from 'src/app/gifs/components/search-box/search-box.component';
+
 
 @Component({
   selector: 'shared-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })
+
 export class SidebarComponent {
 
   constructor( private gifsService: GifsService ){  }
 
-  get tags() {
+  get tags(): string[]{
     return this.gifsService.tagsHistory;
+  }
+
+  searchTag(newTag: string) {
+    this.gifsService.searchTag(newTag);
+    console.log("Esta vivo");
   }
 
 }

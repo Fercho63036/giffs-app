@@ -7,11 +7,14 @@
     <div class="list-group list-reset">
 
       <!--Aqui inyectar el Ngfor-->
-      <button class="list-group-item list-group-item-action" *ngFor="let tag of tags">
+      <button
+        class="list-group-item list-group-item-action"
+        *ngFor="let tag of tags"
+        (click)="searchTag(tag)"
+      >
         {{ tag | titlecase }}
       </button>
 
     </div>
-
 
 </div>
