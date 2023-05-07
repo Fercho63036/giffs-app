@@ -7,7 +7,7 @@ import { Gif, SearchResponse } from '../interfaces/gifs.interfaces';
 /*
   providedIn: 'root' => Hacen que este servicio esté totalmente disponible a lo largo de toda la aplicación y todos los módulos que inyecten este servicio.
 */
-export class GifsService {
+export class GifsService{
 
   public gifList: Gif[] =[];
 
@@ -15,7 +15,10 @@ export class GifsService {
   private apiKey:       string = 'Gy1GEO3Dz6NBqwdJLj0AwCAWreRXneQx';
   private serviceUrl:   string = 'http://api.giphy.com/v1/gifs';
 
-  constructor( private http: HttpClient ){ }
+  constructor( private http: HttpClient ){
+    this.loadLocalStorage();
+    console.log('Gifs Service Ready');
+  }
 
   get tagsHistory() {
     return [...this._tagsHistory];
@@ -30,6 +33,22 @@ export class GifsService {
 
     this._tagsHistory.unshift( tag );
     this._tagsHistory = this.tagsHistory.splice(0, 10);
+    this.saveLocalStorage();
+  }
+
+  private saveLocalStorage(): void{
+
+    localStorage.setItem('history', JSON.stringify(this._tagsHistory));
+  }
+
+  private loadLocalStorage(): void{
+
+    if( !localStorage.getItem('history')) return;
+
+    this._tagsHistory = JSON.parse( localStorage.getItem('history')! );
+
+    if(this._tagsHistory.length === 0) return;
+      this.searchTag( this._tagsHistory[0] );
   }
 
   // Buscar los valores del tag que la persona esta indicando
